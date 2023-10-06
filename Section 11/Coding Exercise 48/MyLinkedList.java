@@ -13,7 +13,6 @@ public class MyLinkedList implements NodeList {
     @Override
     public boolean addItem(ListItem newItem) {
         if (this.root == null) {
-            // The list was empty, so this item becomes the head of the list
             this.root = newItem;
             return true;
         }
@@ -22,27 +21,22 @@ public class MyLinkedList implements NodeList {
         while (currentItem != null) {
             int comparison = (currentItem.compareTo(newItem));
             if (comparison < 0) {
-                // newItem is greater, move right if possible
                 if (currentItem.next() != null) {
                     currentItem = currentItem.next();
                 } else {
-                    // there is no next, so insert at end of list
                     currentItem.setNext(newItem).setPrevious(currentItem);
                     return true;
                 }
             } else if (comparison > 0) {
-                // newItem is less, insert before
                 if (currentItem.previous() != null) {
                     currentItem.previous().setNext(newItem).setPrevious(currentItem.previous());
                     newItem.setNext(currentItem).setPrevious(newItem);
                 } else {
-                    // the node with a previous is the root
                     newItem.setNext(this.root).setPrevious(newItem);
                     this.root = newItem;
                 }
                 return true;
             } else {
-                // equal
                 System.out.println(newItem.getValue() + " is already present, not added.");
                 return false;
             }
@@ -61,7 +55,6 @@ public class MyLinkedList implements NodeList {
         while (currentItem != null) {
             int comparison = currentItem.compareTo(item);
             if (comparison == 0) {
-                // found the item to delete
                 if (currentItem == this.root) {
                     this.root = currentItem.next();
                 } else {
@@ -73,15 +66,11 @@ public class MyLinkedList implements NodeList {
                 return true;
             } else if (comparison < 0) {
                 currentItem = currentItem.next();
-            } else { // comparison > 0
-                // We are at an item greater than the one to be deleted
-                // so the item is not in the list
+            } else {
                 return false;
             }
         }
 
-        // We have reached the end of the list
-        // Without finding the item to delete
         return false;
     }
 
